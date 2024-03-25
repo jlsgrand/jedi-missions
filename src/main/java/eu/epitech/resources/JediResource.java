@@ -1,8 +1,5 @@
 package eu.epitech.resources;
 
-import java.util.List;
-import java.util.UUID;
-
 import eu.epitech.model.Jedi;
 import eu.epitech.service.JediService;
 import jakarta.inject.Inject;
@@ -15,10 +12,13 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
+import java.util.List;
+import java.util.UUID;
+
 @Path("/api/v1/jedis")
 public class JediResource {
 
-    private JediService jediService;
+    private final JediService jediService;
 
     @Inject
     public JediResource(JediService jediService) {
@@ -48,13 +48,13 @@ public class JediResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id}")
     public Jedi putJedi(@PathParam("id") UUID id, Jedi jedi) {
-        // si j'ai différence entre id et jedi.id
+
         return jediService.updateJedi(jedi);
     }
 
     @DELETE
     @Path("/{id}")
-    public void deletJedi(@PathParam("id") UUID id) {
+    public void deleteJedi(@PathParam("id") UUID id) {
         jediService.deleteJedi(id);
     }
 }

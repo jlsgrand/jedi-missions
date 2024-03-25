@@ -1,11 +1,12 @@
 package eu.epitech.repository;
 
+import eu.epitech.model.Entity;
+import jakarta.ws.rs.NotFoundException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
-import eu.epitech.model.Entity;
 
 public class InMemoryRepository<E extends Entity> {
     List<E> entities = new ArrayList<>();
@@ -13,9 +14,7 @@ public class InMemoryRepository<E extends Entity> {
     public E save(E entityToSave) {
         Optional<E> entity = findById(entityToSave.id());
 
-        if (entity.isPresent()) {
-            entities.remove(entity.get());
-        }
+        entity.ifPresent(e -> entities.remove(e));
         entities.add(entityToSave);
 
         return entityToSave;
@@ -25,6 +24,8 @@ public class InMemoryRepository<E extends Entity> {
         Optional<E> entity = findById(idToDelete);
         if (entity.isPresent()) {
             entities.remove(entity.get());
+        } else {
+            throw new NotFoundException("L'entité : " + idToDelete + "n'existe pas et ne peux pas être supprimée");
         }
     }
 

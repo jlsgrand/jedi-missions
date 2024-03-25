@@ -1,18 +1,19 @@
 package eu.epitech.service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
 import eu.epitech.model.Jedi;
 import eu.epitech.repository.JediRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.ws.rs.NotFoundException;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @ApplicationScoped
 public class JediService {
 
-    private JediRepository jediRepository;
+    private final JediRepository jediRepository;
 
     @Inject
     public JediService(JediRepository jediRepository) {
@@ -31,7 +32,7 @@ public class JediService {
         Optional<Jedi> jedi = jediRepository.findById(id);
 
         if (jedi.isPresent()) return jedi.get();
-        else return null;
+        else throw new NotFoundException("Le jedi : " + id + "n'existe pas");
     }
 
     public Jedi updateJedi(Jedi jedi) {
