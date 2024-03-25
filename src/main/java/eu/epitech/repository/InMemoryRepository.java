@@ -10,13 +10,15 @@ import eu.epitech.model.Entity;
 public class InMemoryRepository<E extends Entity> {
     List<E> entities = new ArrayList<>();
 
-    public void save(E entityToSave) {
+    public E save(E entityToSave) {
         Optional<E> entity = findById(entityToSave.id());
 
         if (entity.isPresent()) {
             entities.remove(entity.get());
         }
         entities.add(entityToSave);
+
+        return entityToSave;
     }
 
     public void deleteById(UUID idToDelete) {
