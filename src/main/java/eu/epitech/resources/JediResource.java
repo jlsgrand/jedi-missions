@@ -3,13 +3,7 @@ package eu.epitech.resources;
 import eu.epitech.model.Jedi;
 import eu.epitech.service.JediService;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.DELETE;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.PUT;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
-import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 
 import java.util.List;
@@ -48,8 +42,11 @@ public class JediResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id}")
     public Jedi putJedi(@PathParam("id") UUID id, Jedi jedi) {
-
-        return jediService.updateJedi(jedi);
+        if (id != null && jedi != null && id.equals(jedi.id())) {
+            return jediService.updateJedi(jedi);
+        } else {
+            throw new BadRequestException("Les id de l'URI et de la ressource sont différents");
+        }
     }
 
     @DELETE

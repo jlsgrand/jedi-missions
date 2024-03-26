@@ -1,0 +1,11 @@
+### Send POST request with json body
+POST http://localhost:8080/api/v1/jedis/
+Content-Type: application/json
+
+{
+  "firstName": "Luke",
+  "lastName": "Skywalker",
+  "rank": "KNIGHT",
+  "isMemberOfCouncil": false,
+  "birthDate": "1969-06-02"
+}
