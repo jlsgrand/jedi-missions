@@ -4,6 +4,7 @@ import eu.epitech.model.Jedi;
 import eu.epitech.repository.JediRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.NotFoundException;
 
 import java.util.List;
@@ -20,23 +21,26 @@ public class JediService {
         this.jediRepository = jediRepository;
     }
 
+    @Transactional
     public Jedi createJedi(Jedi jedi) {
-        return jediRepository.save(jedi);
+        jediRepository.persist(jedi);
+        return jedi;
     }
 
     public List<Jedi> getJedis() {
-        return jediRepository.findAll();
+        return jediRepository.findAll().list();
     }
 
     public Jedi getJedi(UUID id) {
-        Optional<Jedi> jedi = jediRepository.findById(id);
+        Optional<Jedi> jedi = jediRepository.findByIdOptional(id);
 
         if (jedi.isPresent()) return jedi.get();
         else throw new NotFoundException("Le jedi : " + id + "n'existe pas");
     }
 
     public Jedi updateJedi(Jedi jedi) {
-        return jediRepository.save(jedi);
+        jediRepository.persist(jedi);
+        return jedi;
     }
 
     public void deleteJedi(UUID id) {

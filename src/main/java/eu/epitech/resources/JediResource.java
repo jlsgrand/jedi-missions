@@ -42,7 +42,7 @@ public class JediResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id}")
     public Jedi putJedi(@PathParam("id") UUID id, Jedi jedi) {
-        if (id != null && jedi != null && id.equals(jedi.id())) {
+        if (id != null && jedi != null && id.equals(jedi.getUuid())) {
             return jediService.updateJedi(jedi);
         } else {
             throw new BadRequestException("Les id de l'URI et de la ressource sont différents");
