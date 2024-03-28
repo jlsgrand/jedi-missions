@@ -1,7 +1,6 @@
 package eu.epitech.repository;
 
 import eu.epitech.model.Jedi;
-import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import jakarta.enterprise.context.ApplicationScoped;
 

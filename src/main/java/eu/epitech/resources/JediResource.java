@@ -1,8 +1,10 @@
 package eu.epitech.resources;
 
+import eu.epitech.dto.JediDto;
 import eu.epitech.model.Jedi;
 import eu.epitech.service.JediService;
 import jakarta.inject.Inject;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 
@@ -32,20 +34,21 @@ public class JediResource {
         return jediService.getJedi(id);
     }
 
+
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public Jedi postJedi(Jedi jedi) {
+    public Jedi postJedi(@Valid JediDto jedi) {
         return jediService.createJedi(jedi);
     }
 
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id}")
-    public Jedi putJedi(@PathParam("id") UUID id, Jedi jedi) {
-        if (id != null && jedi != null && id.equals(jedi.getUuid())) {
-            return jediService.updateJedi(jedi);
+    public Jedi putJedi(@PathParam("id") UUID id, JediDto jedi) {
+        if (id != null && jedi != null) {
+            return jediService.updateJedi(id, jedi);
         } else {
-            throw new BadRequestException("Les id de l'URI et de la ressource sont différents");
+            throw new BadRequestException("L'id et le Jedi DTO doivent être spécifiés'");
         }
     }
 

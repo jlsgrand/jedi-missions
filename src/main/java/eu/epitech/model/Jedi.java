@@ -1,10 +1,10 @@
 package eu.epitech.model;
 
-import jakarta.persistence.*;
 import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -24,8 +24,20 @@ public class Jedi {
 
     private LocalDate birthDate;
 
-    @ManyToMany
-    private List<Mission> missions;
+    @ManyToMany(mappedBy = "jedis", fetch = FetchType.EAGER)
+    private Set<Mission> missions;
+
+    public Jedi() {
+    }
+
+    public Jedi(UUID id, String firstName, String lastName, Rank rank, boolean isMemberOfCouncil, LocalDate birthDate) {
+        this.uuid = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.rank = rank;
+        this.isMemberOfCouncil = isMemberOfCouncil;
+        this.birthDate = birthDate;
+    }
 
     public UUID getUuid() {
         return uuid;
@@ -75,11 +87,11 @@ public class Jedi {
         this.birthDate = birthDate;
     }
 
-    public List<Mission> getMissions() {
+    public Set<Mission> getMissions() {
         return missions;
     }
 
-    public void setMissions(List<Mission> missions) {
+    public void setMissions(Set<Mission> missions) {
         this.missions = missions;
     }
 }

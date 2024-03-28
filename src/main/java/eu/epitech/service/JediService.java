@@ -1,5 +1,6 @@
 package eu.epitech.service;
 
+import eu.epitech.dto.JediDto;
 import eu.epitech.model.Jedi;
 import eu.epitech.repository.JediRepository;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -22,9 +23,10 @@ public class JediService {
     }
 
     @Transactional
-    public Jedi createJedi(Jedi jedi) {
-        jediRepository.persist(jedi);
-        return jedi;
+    public Jedi createJedi(JediDto jedi) {
+        Jedi jediToSave = new Jedi(null, jedi.getFirstName(), jedi.getLastName(), jedi.getRank(), jedi.isMemberOfCouncil(), jedi.getBirthDate());
+        jediRepository.persist(jediToSave);
+        return jediToSave;
     }
 
     public List<Jedi> getJedis() {
@@ -38,11 +40,21 @@ public class JediService {
         else throw new NotFoundException("Le jedi : " + id + "n'existe pas");
     }
 
-    public Jedi updateJedi(Jedi jedi) {
-        jediRepository.persist(jedi);
-        return jedi;
+    @Transactional
+    public Jedi updateJedi(UUID jediId, JediDto jedi) {
+        Jedi jediToUpdate = jediRepository.findById(jediId);
+
+        jediToUpdate.setBirthDate(jedi.getBirthDate());
+        jediToUpdate.setFirstName(jedi.getFirstName());
+        jediToUpdate.setLastName(jedi.getLastName());
+        jediToUpdate.setRank(jedi.getRank());
+        jediToUpdate.setMemberOfCouncil(jedi.isMemberOfCouncil());
+
+        jediRepository.persist(jediToUpdate);
+        return jediToUpdate;
     }
 
+    @Transactional
     public void deleteJedi(UUID id) {
         jediRepository.deleteById(id);
     }

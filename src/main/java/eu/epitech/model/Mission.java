@@ -1,10 +1,10 @@
 package eu.epitech.model;
 
-import jakarta.persistence.*;
 import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -19,13 +19,13 @@ public class Mission {
     @Column(length = 1000)
     private String description;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "assignation",
-            joinColumns = { @JoinColumn(name = "mission_id") },
-            inverseJoinColumns = { @JoinColumn(name = "jedi_id") }
+            joinColumns = {@JoinColumn(name = "mission_id")},
+            inverseJoinColumns = {@JoinColumn(name = "jedi_id")}
     )
-    private List<Jedi> jedis;
+    private Set<Jedi> jedis;
 
     @Column(nullable = false)
     private LocalDate startDate;
@@ -57,11 +57,11 @@ public class Mission {
         this.description = description;
     }
 
-    public List<Jedi> getJedis() {
+    public Set<Jedi> getJedis() {
         return jedis;
     }
 
-    public void setJedis(List<Jedi> jedis) {
+    public void setJedis(Set<Jedi> jedis) {
         this.jedis = jedis;
     }
 

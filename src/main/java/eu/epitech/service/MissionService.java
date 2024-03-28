@@ -6,6 +6,7 @@ import eu.epitech.repository.MissionRepository;
 import io.quarkus.logging.Log;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.BadRequestException;
 import jakarta.ws.rs.NotFoundException;
 
@@ -32,11 +33,13 @@ public class MissionService {
         return missionRepository.findAll().list();
     }
 
+    @Transactional
     public Mission createMission(Mission mission) {
         missionRepository.persist(mission);
         return mission;
     }
 
+    @Transactional
     public Mission updateMission(Mission mission) {
         missionRepository.persist(mission);
         return mission;
@@ -48,6 +51,7 @@ public class MissionService {
         else throw new NotFoundException("La mission : " + id + " n'existe pas");
     }
 
+    @Transactional
     public void assignJediToMission(UUID id, UUID jediId) {
         Mission missionToAssign = missionRepository.findByIdOptional(id).orElseThrow(() -> new NotFoundException("La mission : " + id + " n'existe pas, impossible d'y assigner des jedis"));
 
